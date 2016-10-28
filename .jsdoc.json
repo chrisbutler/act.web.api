@@ -4,7 +4,7 @@
     "dictionaries": ["jsdoc"]
   },
   "source": {
-    "include": ["README.md"],
+    "include": ["act.web.api.js", "README.md"],
     "excludePattern": "(node_modules/|docs/)"
   },
   "plugins": [
