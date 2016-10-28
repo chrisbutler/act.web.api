@@ -1,6 +1,6 @@
 Package.describe({
   name: 'chrisbutler:act.web.api',
-  version: '0.1.0',
+  version: '0.1.1',
   summary: 'Meteor wrapper for the Act! Web API',
   git: 'https://github.com/chrisbutler/act.web.api',
   documentation: 'README.md'
