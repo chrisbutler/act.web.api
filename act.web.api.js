@@ -10,19 +10,45 @@ class ActWebAPI {
     this.endpoint = endpoint;
     this.token = this.authorize();
     this.methods = {
-      lists: {
-        subscribe() {
-
+      contacts: {
+        findOne(params) {
+          return {
+            type: 'GET',
+            endpoint: `api/Contacts/${params.id}`
+          }
         },
-      },
+        find() {
+          return {
+            type: 'GET',
+            endpoint: 'api/Contacts'
+          }
+        },
+        insert() {
+          return {
+            type: 'POST',
+            endpoint: 'api/Contacts/'
+          }
+        },
+        update(params) {
+          return {
+            type: 'PUT',
+            endpoint: `api/Contacts/${params.id}`
+          }
+        },
+        remove(params) {
+          return {
+            type: 'DELETE',
+            endpoint: `api/Contacts/${params.id}`
+          }
+        }
+      }
     };
   }
 
-  request(action, endpoint, args) {
-    const url = `https://${this.endpoint}/act.web.api/${endpoint}`;
+  request(action, args) {
+    const url = `https://${this.endpoint}/act.web.api/${action.endpoint}`;
     try {
-      const request = HTTP.call(action, url, args);
-      return request;
+      return HTTP.call(action.type, url, args);
     } catch (error) {
       return error;
     }
@@ -35,7 +61,7 @@ class ActWebAPI {
         'Act-Database-Name': this.database
       }
     }
-    const response = this.request('GET', 'authorize', opts);
+    const response = this.request({type :'GET', endpoint: 'authorize'}, opts);
     if (response.content) {
       return response.content;
     } else {
@@ -45,12 +71,18 @@ class ActWebAPI {
 
   action(action, method, params) {
     const methodToCall = this.methods[action][method](params);
-    return this.request(methodToCall, params);
+    var opts = {
+      headers: {
+        'Authorization': `Bearer ${this.token}`
+      }
+    };
+    return this.request(methodToCall, opts);
   }
 
   contacts(method, params) {
     return this.action('contacts', method, params);
   }
+
 }
 
 export { ActWebAPI };
