@@ -2,6 +2,10 @@ import { Meteor } from 'meteor/meteor';
 import { HTTP } from 'meteor/http';
 
 class ActWebAPI {
+  /**
+  * Act! Web API Interface
+  * @constructor
+  */
   constructor() {
     const { username, password, database, endpoint } = Meteor.settings.act;
     this.username = username;
@@ -78,6 +82,11 @@ class ActWebAPI {
     };
     return this.request(methodToCall, opts);
   }
+
+  /**
+  * Interact with the Contacts endpoint
+  * @param  {Function} method  find, findOne, insert, update, remove
+  */
 
   contacts(method, params) {
     return this.action('contacts', method, params);
